@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#17212b">
+  <title>Regal OS · Field job</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Regal OS home"><span class="regal-logo regal-logo-app" role="img" aria-label="Regal Carpet Cleaning logo"></span></a>
+    <nav class="topbar-actions" aria-label="Main navigation"><button id="open-work" class="settings-open" type="button">Jobs</button><button id="open-calendar" class="settings-open" type="button">Calendar</button><button id="open-calls" class="settings-open" type="button">Calls &amp; Leads <span id="calls-due-badge" hidden></span></button><button id="open-settings" class="settings-open" type="button">Settings</button><div class="offline"><i></i> Saved on this device</div></nav>
+  </header>
+  <main id="top">
+    <section class="intro"><div><p class="eyebrow">CARPET CARE · FIELD APP</p><h1>Job worksheet</h1><p class="muted">Build the quote, document the work, and close out the visit.</p></div><span id="job-id" class="job-id"></span></section>
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+    <div class="layout">
+      <div class="column">
+        <section class="panel"><div class="step"><span>01</span><div><h2>Customer & service</h2><p>Save contact details locally for this quote and customer history.</p></div></div>
+          <div class="fields"><label class="wide">Customer name<input id="customer" autocomplete="name" placeholder="e.g. Jordan Lee"></label><label class="wide">Service address<input id="address" autocomplete="street-address" placeholder="Street, city"></label>
+            <label>Phone (optional)<input id="customer-phone" type="tel" autocomplete="tel" placeholder="For a text draft"></label><label>Email (optional)<input id="customer-email" type="email" autocomplete="email" placeholder="For an email draft"></label>
+          </div>
+          <div class="measurement-head"><h3>Measure rooms</h3><p>Room sections are added for irregular shapes. Phone measurements are external and must be checked.</p></div>
+          <div class="fields measure-meta"><label>Measurement source<select id="measurement-source"><option value="manual">Manual entry</option><option value="tape">Tape measure</option><option value="laser">Laser measure</option><option value="phone">Phone app (external)</option></select></label><label class="wide">Measurement notes<textarea id="measurement-notes" rows="2" placeholder="Rooms, obstacles, or how dimensions were checked"></textarea></label></div>
+          <div id="rooms" class="rooms-list"></div><button id="add-room" class="secondary add-row" type="button">＋ Add room</button><p id="room-total-label" class="hint"></p>
+          <p id="measurement-guide" class="measure-guide" hidden></p>
+          <div class="fields sqft-override"><label>Measured total (sq ft)<input id="measured-sqft" readonly value="0"></label><label>Override total (optional)<input id="sqft-override" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Use measured total"></label></div>
+        </section>
+        <section class="panel"><div class="step"><span>02</span><div><h2>Itemized estimate</h2><p>Review each room, selected add-on, and any minimum-charge adjustment.</p></div></div>
+          <div id="pricing-status" class="pricing-status"></div><div id="quote-lines" class="quote-lines"></div>
+          <div class="quote"><div><span class="eyebrow">QUOTE TOTAL</span><strong id="total">—</strong></div><p id="rate-note">Set a rate to calculate</p></div>
+          <label class="addon-select">Add-on catalog<select id="addon-picker"><option value="">Choose an add-on</option></select></label><button id="add-addon" class="secondary add-row" type="button">＋ Add selected add-on</button><div id="selected-addons" class="selected-addons"></div>
+        </section>
+        <section class="panel"><div class="step"><span>03</span><div><h2>Before & after photos</h2><p>Optional · photos stay on this device with the job.</p></div></div>
+          <div class="photo-grid"><label class="photo-box"><input id="before-file" type="file" accept="image/*" capture="environment"><span class="photo-icon">＋</span><b>Before</b><span class="photo-help">Add a photo</span><img id="before-preview" alt="Before photo preview" hidden></label><label class="photo-box"><input id="after-file" type="file" accept="image/*" capture="environment"><span class="photo-icon">＋</span><b>After</b><span class="photo-help">Add a photo</span><img id="after-preview" alt="After photo preview" hidden></label></div>
+          <p class="hint">Large photos are resized for local storage. Original files are not uploaded.</p>
+        </section>
+        <section class="panel"><div class="step"><span>04</span><div><h2>Customer approval</h2><p>Required only when completing a job; quote-only saves need no signature.</p></div></div>
+          <div class="sign-head"><span>Signature</span><button id="clear-signature" class="text-button" type="button">Clear</button></div><canvas id="signature" tabindex="0" aria-label="Signature drawing area"></canvas><p class="hint">Use a finger, stylus, or mouse. Signature is saved with this job.</p>
+        </section>
+        <section class="panel"><div class="step"><span>05</span><div><h2>Payment record</h2><p>Record cash received or leave the invoice unpaid.</p></div></div>
+          <label>Payment status<select id="payment"><option value="unpaid">Unpaid · $0 received</option><option value="cash">Paid in cash</option></select></label>
+          <div id="cash-note" class="cash-note" hidden>Cash payment will be recorded as <b id="cash-amount">$157.50</b>. No card is charged.</div>
+        </section>
+        <section id="confirmation" class="confirm-panel" role="group" aria-labelledby="confirm-title" aria-describedby="confirm-message" aria-live="assertive" hidden>
+          <div><h2 id="confirm-title">Confirm action</h2><p id="confirm-message"></p></div>
+          <div class="confirm-actions"><button id="confirm-cancel" class="secondary" type="button">Cancel</button><button id="confirm-accept" class="primary" type="button">Confirm</button></div>
+        </section>
+        <div class="actions actions-workflow"><button id="save-quote" class="secondary" type="button">Save quote</button><button id="save-job" class="primary" type="button">Complete job</button><button id="new-job" class="secondary" type="button">Start a new job</button></div>
+      </div>
+      <aside class="panel saved-panel"><div class="saved-head"><div><p class="eyebrow">ON THIS DEVICE</p><h2>Saved work</h2></div><span id="job-count" class="count">0</span></div><div id="saved-jobs" class="saved-list"></div><label class="history-search">Search customer history<input id="history-search" type="search" placeholder="Name, email, phone, address"></label><div id="customer-history" class="customer-history"></div><p class="hint storage-note">Local-only storage · quotes and jobs are not synced to an account or server.</p></aside>
+    </div>
+    <footer>Regal OS <span>First milestone · local field workflow</span></footer>
+  </main>
+  <main id="calendar-page" class="settings-page" hidden>
+    <section class="intro"><div><p class="eyebrow">REGAL SCHEDULE</p><h1>Appointments</h1><p class="muted">Book a visit, assign a technician, and keep the day organized.</p></div></section>
+    <div id="calendar-host"></div>
+  </main>
+  <main id="calls-page" class="settings-page calls-page" hidden>
+    <section class="intro"><div><p class="eyebrow">REGAL CUSTOMER CARE</p><h1>Calls &amp; Leads</h1><p class="muted">Log a call, find the customer, and plan your next step.</p></div></section>
+    <div id="calls-host"></div>
+  </main>
+  <main id="settings-page" class="settings-page" hidden>
+    <section class="intro"><div><p class="eyebrow">REGAL FIELD SETTINGS</p><h1>Pricing</h1><p class="muted">Set your own amounts. Nothing is charged or sent from this device.</p></div><button id="back-to-work" class="secondary" type="button">Back to job</button></section>
+    <div id="settings-notice" class="notice" role="status" aria-live="polite"></div>
+    <section class="panel pricing-settings"><div class="settings-heading"><div><h2>Your rate card</h2><p class="hint">The supplied carpet room prices are confirmed. Set your own square-foot, tile, upholstery, and optional service rates before using them.</p></div><span id="pricing-mode-badge" class="pricing-badge"></span></div>
+      <label class="carpet-model-field">Carpet pricing model<select id="carpet-pricing-model"><option value="room">Per room package</option><option value="sqft">Per square foot</option></select></label>
+      <div id="carpet-room-rates" class="fields carpet-room-rates"><label>First carpet room<input id="carpet-first-room-rate" type="number" min="0" step="0.01"></label><label>Each additional carpet room<input id="carpet-additional-room-rate" type="number" min="0" step="0.01"></label></div>
+      <p id="carpet-pricing-help" class="hint">Supplied room prices: $150 for the first carpet room and $25 for each additional room. No size limit; halls and stairs have no separate surcharge. Rectangle sections remain part of one room.</p>
+      <div class="pricing-grid"><span></span><b>Standard</b><b>Deep clean</b><b>Premium protect</b>
+        <b class="carpet-sqft-field">Carpet · per sq ft</b><input class="carpet-sqft-field" data-rate-surface="carpet" data-rate-tier="standard" type="number" min="0" step="0.01"><input class="carpet-sqft-field" data-rate-surface="carpet" data-rate-tier="deep" type="number" min="0" step="0.01"><input class="carpet-sqft-field" data-rate-surface="carpet" data-rate-tier="premium" type="number" min="0" step="0.01">
+        <b>Tile · per sq ft</b><input data-rate-surface="tile" data-rate-tier="standard" type="number" min="0" step="0.01"><input data-rate-surface="tile" data-rate-tier="deep" type="number" min="0" step="0.01"><input data-rate-surface="tile" data-rate-tier="premium" type="number" min="0" step="0.01">
+        <b>Upholstery · per item</b><input data-rate-surface="upholstery" data-rate-tier="standard" type="number" min="0" step="0.01"><input data-rate-surface="upholstery" data-rate-tier="deep" type="number" min="0" step="0.01"><input data-rate-surface="upholstery" data-rate-tier="premium" type="number" min="0" step="0.01">
+      </div>
+      <label class="minimum-field">Minimum service charge<input id="minimum-charge" type="number" min="0" step="0.01" value="0"></label>
+      <label class="confirm-rate-label"><input id="confirm-prices" type="checkbox"> I have reviewed these as Regal's prices. Otherwise keep demonstration labels.</label>
+      <button id="save-pricing" class="primary" type="button">Save rate card</button>
+    </section>
+    <section class="panel pricing-settings"><h2>Optional add-on catalog</h2><p class="hint">Add only services you choose to offer. No add-on or fee is selected or charged by default.</p>
+      <div id="addon-catalog" class="addon-catalog"></div>
+      <div class="addon-editor"><label>Add-on name<input id="addon-name" maxlength="80" placeholder="e.g. Fabric protector"></label><label>Price<input id="addon-rate" type="number" min="0" step="0.01" placeholder="Enter your amount"></label><label>Charge unit<select id="addon-unit"><option value="job">Per job</option><option value="stair">Per stair / step</option><option value="room">Per room</option><option value="item">Per item / seat</option><option value="sqft">Per sq ft</option><option value="hour">Per hour</option></select></label><button id="save-addon" class="secondary" type="button">Add to catalog</button></div>
+    </section>
+    <section class="panel pricing-settings"><h2>Pricing ideas to consider</h2><p class="hint">These published examples are from other companies and are not Regal prices or local recommendations. Review them as categories only; enter and confirm your own policy.</p>
+      <ul class="pricing-ideas"><li>Stairs or steps, landings, halls, and oversized rooms</li><li>Fabric protector, odor treatment, or specialty spot treatment</li><li>Heavy furniture handling (state what routine light moving includes)</li><li>Upper-floor equipment/setup where access changes the work</li><li>Upholstery by seat or piece; minimum service charge</li></ul>
+      <p class="hint">Examples: <a href="https://www.stanleysteemer.com/faqs" target="_blank" rel="noopener">Stanley Steemer FAQ</a>, <a href="https://www.zerorez.com/pricing" target="_blank" rel="noopener">Zerorez pricing</a>, <a href="https://mycarpetcleaning.us/pricing" target="_blank" rel="noopener">My Carpet Cleaning pricing</a>.</p>
+    </section>
+    <section class="panel measure-help"><h2>Measurement tools</h2><p><b>iPhone:</b> Apple Measure can help check individual dimensions. RoomPlan needs a compatible app/device and is not integrated here. Check large or important areas manually.</p><p><b>Android:</b> camera measurement support depends on device and app; it is not verified or integrated here. Enter measurements from a tool you trust.</p><p class="hint">This app does not scan rooms or measure from the camera. Choose the measurement source and write notes on the job.</p></section>
+  </main>
+  <section id="receipt-view" class="receipt-overlay" role="dialog" aria-modal="true" aria-labelledby="receipt-heading" aria-describedby="receipt-subtitle" hidden>
+    <div class="receipt-toolbar"><button id="receipt-close" class="secondary" type="button">Back to jobs</button><button id="receipt-print" class="primary" type="button">Print / Save PDF</button><button id="receipt-share" class="secondary" type="button">Copy message</button></div>
+    <div class="receipt-toolbar"><a id="receipt-email">Open email draft</a><a id="receipt-sms">Open text draft</a><span id="share-status" role="status"></span></div>
+    <article class="receipt-paper">
+      <header class="receipt-header"><div><span class="regal-logo regal-logo-receipt" role="img" aria-label="Regal Carpet Cleaning logo"></span><p class="regal-contact">(772) 778-8480 · Vero Beach, FL</p></div><span id="receipt-status" class="receipt-status"></span></header>
+      <p class="receipt-preview">Preview · demonstration rates</p>
+      <h1 id="receipt-heading">Receipt</h1>
+      <p id="receipt-subtitle" class="receipt-subtitle"></p>
+      <div class="receipt-meta"><div><span>Job number</span><b id="receipt-job-number"></b></div><div><span>Date</span><b id="receipt-date"></b></div></div>
+      <section class="receipt-customer"><h2>Customer</h2><p id="receipt-customer-name"></p><p id="receipt-address"></p></section>
+      <table class="receipt-lines"><thead><tr><th>Service</th><th>Area</th><th>Rate</th><th class="amount">Amount</th></tr></thead><tbody><tr><td id="receipt-service"></td><td id="receipt-area"></td><td id="receipt-rate"></td><td id="receipt-total" class="amount"></td></tr></tbody></table>
+      <dl class="receipt-totals"><div><dt>Service total</dt><dd id="receipt-service-total"></dd></div><div><dt>Amount received</dt><dd id="receipt-received"></dd></div><div class="balance"><dt>Balance due</dt><dd id="receipt-balance"></dd></div></dl>
+      <section id="receipt-signature-block" class="receipt-signature" hidden><h2>Customer approval</h2><img id="receipt-signature" alt="Customer signature"><span>Customer signature on file</span></section>
+      <p class="receipt-footnote">Thank you for choosing Regal Carpet Cleaning.</p>
+    </article>
+  </section>
+  <script src="pricing.js"></script>
+  <script src="customer-tools.js"></script>
+  <script src="calls.js"></script>
+  <script src="calendar.js"></script>
+  <script src="app.js"></script>
+  <script src="mobile.js"></script>
+</body>
+</html>
+
+
