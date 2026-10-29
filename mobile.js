@@ -19,7 +19,7 @@
     const openCalls = $('#open-calls'), openSettings = $('#open-settings');
     if (openCalls) more.append(openCalls);
     if (openSettings) more.append(openSettings);
-    shellHeader.append(brand,more);
+    for(const [id,label]of [['#open-calls','Calls & Leads'],['#open-settings','Pricing'],['#open-tools','Business tools']])$(id)?.setAttribute('aria-label',label);if($('#open-tools'))more.append($('#open-tools'));shellHeader.append(brand,more);
     const todayMain = make('main','mobile-today'); todayMain.id='mobile-today'; todayMain.hidden=true;
     const todayHeading = make('h1','','Today'); todayMain.append(todayHeading);
     const todayDate = make('p','mobile-today-date'); todayMain.append(todayDate);
@@ -41,11 +41,11 @@
     }
     function setView(view) {
       currentView=view;document.body.dataset.mobileView=view;more.open=false;quoteActions.replaceChildren();
-      const targets={today:todayMain,customers:top,quote:top,calendar:calendarPage,calls:callsPage,pricing:settingsPage};
+      const targets={today:todayMain,customers:top,quote:top,calendar:calendarPage,calls:callsPage,pricing:settingsPage,tools:$('#tools-page')};
       const target=targets[view];
       if(target)hideDesktopMains(target);
       for(const button of mobileNav.querySelectorAll('button')){const active=button.dataset.mobileView===view;button.classList.toggle('active',active);if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');}
-      mobileMainName.textContent=view==='customers'?'Customers':view==='quote'?'Quote':view==='calendar'?'Calendar':view==='calls'?'Calls & Leads':view==='pricing'?'Pricing':'Today';
+      mobileMainName.textContent=view==='customers'?'Customers':view==='quote'?'Quote':view==='calendar'?'Calendar':view==='calls'?'Calls & Leads':view==='pricing'?'Pricing':view==='tools'?'Business tools':'Today';
       const savedPanel=top.querySelector('.saved-panel');
       if(view==='customers'){top.dataset.mobileView='customers';if(savedPanel)savedPanel.hidden=false;}
       else if(view==='quote'){top.dataset.mobileView='quote';if(savedPanel)savedPanel.hidden=true;renderQuoteStep();}
@@ -91,6 +91,7 @@
       }
     }
     function openExisting(buttonId,view) {$(buttonId)?.click();setTimeout(()=>setView(view),0);}
+    $('#open-tools')?.addEventListener('click',()=>setTimeout(()=>setView('tools'),0));
     continueQuote.addEventListener('click',()=>showQuoteStep(0));openTodayCalls.addEventListener('click',()=>openExisting('#open-calls','calls'));openTodayCalendar.addEventListener('click',()=>setView('calendar'));
     openCalls?.addEventListener('click',()=>setTimeout(()=>setView('calls'),0));openSettings?.addEventListener('click',()=>setTimeout(()=>setView('pricing'),0));
     $('#back-to-work')?.addEventListener('click',()=>setTimeout(()=>showQuoteStep(0),0));

@@ -11,7 +11,7 @@
 <body>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Regal OS home"><span class="regal-logo regal-logo-app" role="img" aria-label="Regal Carpet Cleaning logo"></span></a>
-    <nav class="topbar-actions" aria-label="Main navigation"><button id="open-work" class="settings-open" type="button">Jobs</button><button id="open-calendar" class="settings-open" type="button">Calendar</button><button id="open-calls" class="settings-open" type="button">Calls &amp; Leads <span id="calls-due-badge" hidden></span></button><button id="open-settings" class="settings-open" type="button">Settings</button><div class="offline"><i></i> Saved on this device</div></nav>
+    <nav class="topbar-actions" aria-label="Main navigation"><button id="open-work" class="settings-open" type="button">Jobs</button><button id="open-calendar" class="settings-open" type="button">Calendar</button><button id="open-calls" class="settings-open" type="button">Calls &amp; Leads <span id="calls-due-badge" hidden></span></button><button id="open-settings" class="settings-open" type="button">Settings</button><button id="open-tools" class="settings-open" type="button">Business tools</button><div class="offline"><i></i> Saved on this device</div></nav>
   </header>
   <main id="top">
     <section class="intro"><div><p class="eyebrow">CARPET CARE · FIELD APP</p><h1>Job worksheet</h1><p class="muted">Build the quote, document the work, and close out the visit.</p></div><span id="job-id" class="job-id"></span></section>
@@ -54,6 +54,7 @@
     </div>
     <footer>Regal OS <span>First milestone · local field workflow</span></footer>
   </main>
+  <main id="tools-page" class="settings-page" hidden><section class="intro"><div><p class="eyebrow">REGAL BUSINESS</p><h1>Business tools</h1><p class="muted">Review your business, save property notes, and protect your records.</p></div></section><nav class="tools-tabs" aria-label="Business tools"><button data-tool="dashboard">Dashboard</button><button data-tool="properties">Properties & follow-ups</button><button data-tool="backup">Backup & restore</button><button data-tool="connections">Connections</button></nav><section id="dashboard-host" class="tool-host"></section><section id="properties-host" class="tool-host" hidden></section><section id="backup-host" class="tool-host" hidden></section><section id="connections-host" class="tool-host" hidden><h2>Connected services</h2><p>Shared records, sign-in and secure customer approval links need a connected database. They are not active yet.</p><p>Automatic distance and drive-time estimates need a mapping service. Use Calendar's manual estimates and Apple Maps directions for now.</p></section></main>
   <main id="calendar-page" class="settings-page" hidden>
     <section class="intro"><div><p class="eyebrow">REGAL SCHEDULE</p><h1>Appointments</h1><p class="muted">Book a visit, assign a technician, and keep the day organized.</p></div></section>
     <div id="calendar-host"></div>
@@ -110,6 +111,10 @@
   <script src="calendar.js"></script>
   <script src="app.js"></script>
   <script src="mobile.js"></script>
+  <script src="properties.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="backup.js"></script>
+  <script src="business-tools.js"></script>
 </body>
 </html>
 

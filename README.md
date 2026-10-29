@@ -1,8 +1,6 @@
 # Regal OS
 
-Carpet-cleaning field app.
-
 Desktop: https://volcompunker82.github.io/regal-os/
-Phone interface: https://volcompunker82.github.io/regal-os/?view=mobile
+Phone: https://volcompunker82.github.io/regal-os/?view=mobile
 
-Records remain in the browser on each device. Hosting does not add account sign-in or synchronization. No customer records, signatures, photos, internal handoffs or credentials are included in this repository.
+Business tools: dashboard, property profiles, repeat-service message drafts, backup and merge restore. Records remain local to each browser/device. Shared records, account sign-in, secure customer approval links and automatic travel estimates are not connected. No customer records or credentials are included in this repository.
