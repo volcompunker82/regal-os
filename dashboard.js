@@ -115,7 +115,7 @@
         renderList(stops, upcoming, 'No upcoming appointments.', a => `${a.date === today ? 'Today' : a.date} · ${a.startTime || ''} · ${a.name || 'Unnamed customer'}${a.address ? ` · ${a.address}` : ''}`);
       } catch (error) { renderList(stops, [], `Appointments unavailable: ${error.message}`, String); }
       try {
-        const profiles = root.RegalProperties?.createStore?.().load?.() || [];
+        const profiles = root.RegalProperties?.createStore?.(root.localStorage).load?.() || [];
         const propertyReminders = root.RegalProperties?.reminders?.(profiles) || [];
         const callStore = root.RegalCalls?.createStore?.();
         const due = root.RegalCalls?.listCallbacks?.(callStore?.load?.() || []).filter(item => item.state === 'due') || [];
